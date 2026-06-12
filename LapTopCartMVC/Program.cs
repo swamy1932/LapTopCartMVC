@@ -1,9 +1,22 @@
+using LapTopCartMVC.Data;
+using LapTopCartMVC.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("LaptopDBConnection")));
+
 var app = builder.Build();
+
+//Dependency Injection setup
+//builder.Services.AddScoped<IPaymentService, Razorpay>();
+
+//Register the NotificationService for dependency injection
+//builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
