@@ -17,9 +17,20 @@ namespace LapTopCartMVC.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            List<Product> products = _context.Products.ToList();
+            return View(products);
         }
 
+        public async Task<IActionResult> Edit(int id)
+        {
+            Product product = await _context.Products.FindAsync(id);
+            return View(product);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(Product product)
+        {
+            return View(product);
+        }
         public IActionResult Create()
         {
             return View();
@@ -80,6 +91,41 @@ namespace LapTopCartMVC.Controllers
                 return View(product);
             }
         }
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product != null)
+            {
+
+                //delete image file from images folder
+                if (!string.IsNullOrEmpty(product.ImagePath))
+                {
+                    var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, product.ImagePath.TrimStart('/').Replace("/", "\\"));
+                    if (System.IO.File.Exists(imagePath))
+                        System.IO.File.Delete(imagePath);
+                }
+
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
 
