@@ -28,11 +28,6 @@ namespace LapTopCartMVC.Controllers
             Product product = await _context.Products.FindAsync(id);
             return View(product);
         }
-        [HttpPost]
-        public async Task<IActionResult> Edit(Product product)
-        {
-            return View(product);
-        }
         public IActionResult Create()
         {
             return View();
@@ -86,6 +81,7 @@ namespace LapTopCartMVC.Controllers
             {
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
+                TempData["success"] = "Record Created successfully!";
                 return RedirectToAction("Index");
             }
             else
@@ -125,9 +121,45 @@ namespace LapTopCartMVC.Controllers
                 _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
             }
+            TempData["success"] = "Record Deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Edit(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                // If a new image is uploaded, save it
+                if (product.ImageFile != null && product.ImageFile.Length > 0)
+                {
+                    // Generate a unique file name
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(product.ImageFile.FileName);
+                    var savePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", fileName);
+
+                    // Ensure /images folder exists
+                    var imagesDir = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                    if (!Directory.Exists(imagesDir))
+                    {
+                        Directory.CreateDirectory(imagesDir);
+                    }
+                    // Save the new file
+                    using (var stream = new FileStream(savePath, FileMode.Create))
+                    {
+                        await product.ImageFile.CopyToAsync(stream);
+                    }
+
+                    // Save relative path in database
+                    product.ImagePath = "/images/" + fileName;
+                }
+                // Update product in DB
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync();
+                TempData["success"] = "Record updated successfully!";
+                return RedirectToAction(nameof(Index));
+            }
+            return View(product);
+        }
     }
 }
 

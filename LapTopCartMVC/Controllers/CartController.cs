@@ -29,6 +29,7 @@ namespace LapTopCartMVC.Controllers
             cartFromDb.Quantity += 1;
             _context.CartItems.Update(cartFromDb);
             await _context.SaveChangesAsync();
+            TempData["success"] = "Quantity increased successfully.";
             return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Minus(int cartId)
@@ -53,6 +54,7 @@ namespace LapTopCartMVC.Controllers
                 _context.CartItems.Update(cartFromDb);
                 await _context.SaveChangesAsync();
             }
+            TempData["success"] = "Quantity decreased successfully.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -64,7 +66,7 @@ namespace LapTopCartMVC.Controllers
 
             HttpContext.Session.SetInt32(SD.SessionCart, _context.CartItems.Count(x => x.UserId == userId) - 1);
             _context.SaveChangesAsync();
-
+            TempData["success"] = "Item removed successfully.";
             return RedirectToAction(nameof(Index));
         }
     }
