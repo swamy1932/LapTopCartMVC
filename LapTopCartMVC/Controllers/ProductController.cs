@@ -1,6 +1,9 @@
 ﻿using LapTopCartMVC.Data;
+using LapTopCartMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace LapTopCartMVC.Controllers
 {
@@ -14,6 +17,11 @@ namespace LapTopCartMVC.Controllers
 
         public IActionResult Index()
         {
+            var userdId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if(userdId != null)
+            {
+               HttpContext.Session.SetInt32(SD.SessionCart, _context.CartItems.Where(p => p.UserId == userdId).Count());
+            }
             var product = _context.Products.ToList();
             return View(product);
         }
@@ -21,6 +29,29 @@ namespace LapTopCartMVC.Controllers
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
             return View(product);
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Details(CartItem cartItem)
+        {
+            var userdId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var cartproduct = _context.CartItems.FirstOrDefault(p => p.ProductId == cartItem.ProductId && p.UserId == userdId);
+
+            if (cartproduct != null)
+            {
+                cartproduct.Quantity += cartItem.Quantity;
+                _context.CartItems.Update(cartproduct);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                cartItem.Id = 0;
+                cartItem.UserId = userdId;
+                _context.CartItems.Add(cartItem);
+                await _context.SaveChangesAsync();
+            }
+            
+            return RedirectToAction("Index");
         }
     }
 }

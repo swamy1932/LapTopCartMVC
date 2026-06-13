@@ -1,10 +1,12 @@
 ﻿using LapTopCartMVC.Data;
 using LapTopCartMVC.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace LapTopCartMVC.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class AdminProductController : Controller
     {
         private readonly ApplicationDbContext _context;
