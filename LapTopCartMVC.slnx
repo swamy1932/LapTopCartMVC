@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="DependencyInjectionServiceLifeTimes/DependencyInjectionServiceLifeTimes.csproj" Id="d6bd2ad2-47ab-4a70-b0ea-4be185ff2e39" />
+  <Project Path="GitTutorial/GitTutorial.csproj" Id="799d697a-2400-4856-b83c-ab6846bf3044" />
   <Project Path="LaptopCart.DataAccess/LaptopCart.DataAccess.csproj" Id="0dfc75a0-6324-4813-baef-b3cd06fd9f6e" />
   <Project Path="LaptopCart.Models/LaptopCart.Models.csproj" Id="df5ba443-1187-40c7-ba0f-d695ce36aec6" />
   <Project Path="LaptopCart.Utility/LaptopCart.Utility.csproj" Id="26efeb5f-e6b6-41ca-b861-ff8cdab920ac" />
