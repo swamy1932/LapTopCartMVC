@@ -16,4 +16,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LaptopCart.DataAccess\LaptopCart.DataAccess.csproj" />
+    <ProjectReference Include="..\LaptopCart.Models\LaptopCart.Models.csproj" />
+    <ProjectReference Include="..\LaptopCart.Utility\LaptopCart.Utility.csproj" />
+  </ItemGroup>
+
 </Project>

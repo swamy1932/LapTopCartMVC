@@ -1,8 +1,9 @@
-﻿using LapTopCartMVC.Data;
-using LapTopCartMVC.Models;
+﻿using LapTopCart.DataAccess;
+using LaptopCart.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using LapTopCart.DataAccess.Data;
 
 namespace LapTopCartMVC.Controllers
 {

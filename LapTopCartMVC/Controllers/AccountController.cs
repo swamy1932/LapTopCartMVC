@@ -1,5 +1,5 @@
-﻿using LapTopCartMVC.Data;
-using LapTopCartMVC.ViewModels;
+﻿using LapTopCart.DataAccess.Data;
+using LapTopCart.Models.ViewModels;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

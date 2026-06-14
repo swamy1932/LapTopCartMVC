@@ -1,5 +1,5 @@
-﻿using LapTopCartMVC.Data;
-using LapTopCartMVC.Models;
+﻿using LapTopCart.DataAccess.Data;
+using LapTopCart.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;

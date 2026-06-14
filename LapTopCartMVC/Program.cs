@@ -1,8 +1,6 @@
-using LapTopCartMVC.Data;
-using LapTopCartMVC.Services;
+using LapTopCart.DataAccess.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
